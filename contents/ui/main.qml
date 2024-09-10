@@ -35,6 +35,8 @@ PlasmoidItem {
 
     //Scrolling should change the page/desktop/workspace
     ScrllHndl{ anchors.fill: parent }
+    //Clicking should change the page/desktop/workspace if enabled
+    ClckHndl{ anchors.fill: parent }
 
     // Pager and Tasks Models (required)
     PagerModel {

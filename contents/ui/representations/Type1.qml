@@ -2,6 +2,7 @@ import QtQuick
 import org.kde.plasma.components
 import org.kde.kirigami as Kirigami
 import org.kde.plasma.plasmoid
+import org.kde.plasma.plasma5support as Plasma5Support
 
 Rectangle {
     id: pill
@@ -24,7 +25,19 @@ Rectangle {
     }
 
     TapHandler {
-        onTapped: pagerModel.changePage(pos)
+        onTapped:
+        // Check if user has chosen to not open overview
+            cfg.openOverview?
+                executable.connectSource('qdbus org.kde.kglobalaccel /component/kwin invokeShortcut "Overview"') :
+                pagerModel.changePage(pos)
+    }
+    Plasma5Support.DataSource {
+        id: "executable"
+        engine: "executable"
+        connectedSources: []
+        onNewData:function(sourceName, data){
+            disconnectSource(sourceName)
+        }
     }
 
     Behavior on x {
